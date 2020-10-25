@@ -5,6 +5,10 @@
               pluginFormats="buildAU,buildStandalone,buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
   <MAINGROUP id="Gn5W42" name="SynthesisProject">
     <GROUP id="{BE55EA4C-3316-6427-81E2-C172EE84932B}" name="Source">
+      <FILE id="lyCgvK" name="KeyboardListener.cpp" compile="1" resource="0"
+            file="Source/KeyboardListener.cpp"/>
+      <FILE id="uljJNb" name="KeyboardListener.h" compile="0" resource="0"
+            file="Source/KeyboardListener.h"/>
       <FILE id="ije6UG" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="wat60e" name="PluginProcessor.h" compile="0" resource="0"

@@ -11,10 +11,17 @@
 
 //==============================================================================
 SynthesisProjectAudioProcessorEditor::SynthesisProjectAudioProcessorEditor (SynthesisProjectAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+    : AudioProcessorEditor (&p), audioProcessor (p), keyboardComponent(keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard),
+    startTime(juce::Time::getMillisecondCounterHiRes() * 0.001)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
+
+
+    addAndMakeVisible(keyboardComponent);
+    keyboardState.addListener(&keyboardListener);
+
+
     setSize (400, 300);
 }
 
@@ -37,4 +44,6 @@ void SynthesisProjectAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
+
+    keyboardComponent.setBounds(0, 0, getWidth(), getHeight()/4);
 }
