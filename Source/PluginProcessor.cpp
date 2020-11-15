@@ -137,6 +137,9 @@ bool SynthesisProjectAudioProcessor::isBusesLayoutSupported (const BusesLayout& 
 void SynthesisProjectAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
 
+    // gets midi buffer from keyboar state and inserts it into current buffer
+    keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(),true);
+
     synthesiser.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     
 }

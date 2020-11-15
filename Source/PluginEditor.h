@@ -34,7 +34,6 @@ private:
 
 
     KeyboardListener keyboardListener;
-    juce::MidiKeyboardState keyboardState;
     juce::MidiKeyboardComponent keyboardComponent;
 
 

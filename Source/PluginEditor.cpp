@@ -11,7 +11,7 @@
 
 //==============================================================================
 SynthesisProjectAudioProcessorEditor::SynthesisProjectAudioProcessorEditor (SynthesisProjectAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), keyboardComponent(keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard),
+    : AudioProcessorEditor (&p), audioProcessor (p), keyboardComponent(audioProcessor.keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard),
     startTime(juce::Time::getMillisecondCounterHiRes() * 0.001)
 {
     // Make sure that before the constructor has finished, you've set the
@@ -19,7 +19,6 @@ SynthesisProjectAudioProcessorEditor::SynthesisProjectAudioProcessorEditor (Synt
 
 
     addAndMakeVisible(keyboardComponent);
-    //keyboardState.addListener(&keyboardListener);
 
 
     setSize (400, 300);
