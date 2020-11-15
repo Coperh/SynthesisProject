@@ -12,7 +12,9 @@
 #include "KeyboardListener.h"
 
 
+
 void KeyboardListener::handleNoteOn(juce::MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) {
+
 
     juce::Logger::outputDebugString("Press "+std::to_string(midiNoteNumber));
 }

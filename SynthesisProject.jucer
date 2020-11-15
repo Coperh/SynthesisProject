@@ -5,6 +5,8 @@
               pluginFormats="buildAU,buildStandalone,buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
   <MAINGROUP id="Gn5W42" name="SynthesisProject">
     <GROUP id="{BE55EA4C-3316-6427-81E2-C172EE84932B}" name="Source">
+      <FILE id="aPlBfc" name="SynthAudioSource.h" compile="0" resource="0"
+            file="Source/SynthAudioSource.h"/>
       <FILE id="lyCgvK" name="KeyboardListener.cpp" compile="1" resource="0"
             file="Source/KeyboardListener.cpp"/>
       <FILE id="uljJNb" name="KeyboardListener.h" compile="0" resource="0"
@@ -15,6 +17,8 @@
             file="Source/PluginProcessor.h"/>
       <FILE id="GLQOcG" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
+      <FILE id="bZBAr4" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
+      <FILE id="Cpb60W" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
       <FILE id="PHQBzj" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>

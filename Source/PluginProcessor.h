@@ -9,6 +9,10 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "SynthVoice.h"
+#include "SynthSound.h"
+
+using juce::Synthesiser;
 
 //==============================================================================
 /**
@@ -55,6 +59,12 @@ public:
 
 private:
     //==============================================================================
+
+    Synthesiser synthesiser;
+    juce::MidiMessageCollector midiCollector;
+
+
+    double lastSampleRate;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthesisProjectAudioProcessor)
 

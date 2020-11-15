@@ -19,7 +19,7 @@ SynthesisProjectAudioProcessorEditor::SynthesisProjectAudioProcessorEditor (Synt
 
 
     addAndMakeVisible(keyboardComponent);
-    keyboardState.addListener(&keyboardListener);
+    //keyboardState.addListener(&keyboardListener);
 
 
     setSize (400, 300);
