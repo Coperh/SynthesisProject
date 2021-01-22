@@ -67,6 +67,15 @@ public:
 private:
     //==============================================================================
 
+    juce::dsp::Oscillator<float> droneHigh{ [](float x) { return x < 0.0f ? -1.0f : 1.0f;  } };
+    juce::dsp::Oscillator<float> droneLow{ [](float x) { return x < 0.0f ? -1.0f : 1.0f;  } };
+
+    float droneFrequency = 146.83;
+
+
+
+
+
     juce::Synthesiser syntheiser;
 
     

@@ -110,6 +110,16 @@ void UilleannPipesAudioProcessor::prepareToPlay (double sampleRate, int samplesP
     }
 
 
+    juce::dsp::ProcessSpec spec;
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = getNumOutputChannels();
+
+    droneHigh.prepare(spec);
+    droneHigh.setFrequency(droneFrequency);
+    droneLow.prepare(spec);
+    droneLow.setFrequency(droneFrequency/2);
+
 }
 
 void UilleannPipesAudioProcessor::releaseResources()
@@ -163,8 +173,22 @@ void UilleannPipesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
         }
     }
     
-    
     syntheiser.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+
+    juce::dsp::AudioBlock< float > audioBlock{ buffer };
+
+
+    if (droneEnabled) 
+    {
+       
+        droneHigh.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
+        droneLow.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
+    
+    }
+
+
+    
+    
 
     
     
