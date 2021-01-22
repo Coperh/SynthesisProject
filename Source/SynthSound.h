@@ -14,7 +14,7 @@
 
 struct SynthSound : public juce::SynthesiserSound
 {
-    SynthSound() {}
+public:
 
     bool appliesToNote(int) override { return true; }
     bool appliesToChannel(int) override { return true; }

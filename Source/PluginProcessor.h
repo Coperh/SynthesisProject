@@ -67,12 +67,14 @@ public:
 private:
     //==============================================================================
 
-    Synthesiser synthesiser;
+    juce::Synthesiser syntheiser;
+
+    
+
+
     juce::MidiMessageCollector midiCollector;
 
-
     double lastSampleRate;
-
     bool droneEnabled;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UilleannPipesAudioProcessor)

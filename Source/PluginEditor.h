@@ -38,6 +38,7 @@ private:
 
     juce::ToggleButton droneToggle;
 
+    juce::Slider gainSlider;
 
 
     double startTime;

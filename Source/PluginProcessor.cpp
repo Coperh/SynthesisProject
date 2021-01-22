@@ -22,13 +22,10 @@ UilleannPipesAudioProcessor::UilleannPipesAudioProcessor()
                        )
 #endif
 {
+    syntheiser.addSound(new SynthSound());
 
+    syntheiser.addVoice(new SynthVoice());
 
-    for (int i = 0; i < 4; i++) {
-        synthesiser.addVoice(new SynthVoice());
-    }
-
-    synthesiser.addSound(new SynthSound());
 
 
     droneEnabled = false;
@@ -103,8 +100,16 @@ void UilleannPipesAudioProcessor::changeProgramName (int index, const juce::Stri
 //==============================================================================
 void UilleannPipesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    syntheiser.setCurrentPlaybackSampleRate(sampleRate);
 
-    synthesiser.setCurrentPlaybackSampleRate(sampleRate);
+    for (int i = 0; i < syntheiser.getNumVoices(); i++) {
+        
+        if (auto voice = dynamic_cast<SynthVoice*>(syntheiser.getVoice(i))) {
+            voice->prepareToPlay(sampleRate, samplesPerBlock, getTotalNumInputChannels());
+        }
+    }
+
+
 }
 
 void UilleannPipesAudioProcessor::releaseResources()
@@ -139,12 +144,32 @@ bool UilleannPipesAudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
 
 void UilleannPipesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
+    juce::ScopedNoDenormals noDenormals;
+    auto totalNumInputChannels = getTotalNumInputChannels();
+    auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+        buffer.clear(i, 0, buffer.getNumSamples());
+
+    
     // gets midi buffer from keyboar state and inserts it into current buffer
     keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(),true);
 
-    synthesiser.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     
+    for (int i = 0; i < syntheiser.getNumVoices(); ++i)
+    {
+        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(syntheiser.getVoice(i))) {
+            //adsr
+        }
+    }
+    
+    
+    syntheiser.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+
+    
+    
+
+
 }
 
 //==============================================================================
