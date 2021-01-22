@@ -12,7 +12,7 @@
 //==============================================================================
 SynthesisProjectAudioProcessorEditor::SynthesisProjectAudioProcessorEditor (SynthesisProjectAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p), keyboardComponent(audioProcessor.keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard),
-    startTime(juce::Time::getMillisecondCounterHiRes() * 0.001)
+    startTime(juce::Time::getMillisecondCounterHiRes() * 0.001), droneToggle("Enable Drone")
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -20,6 +20,10 @@ SynthesisProjectAudioProcessorEditor::SynthesisProjectAudioProcessorEditor (Synt
 
     addAndMakeVisible(keyboardComponent);
 
+
+    addAndMakeVisible(droneToggle);
+    // toggle when button is pressed
+    droneToggle.onClick = [this]() { audioProcessor.toggleDrone(droneToggle.getToggleState()); };
 
     setSize (400, 300);
 }
@@ -45,4 +49,5 @@ void SynthesisProjectAudioProcessorEditor::resized()
     // subcomponents in your editor..
 
     keyboardComponent.setBounds(0, 0, getWidth(), getHeight()/4);
+    droneToggle.setBounds(0, keyboardComponent.getHeight(), getWidth(), getHeight() / 4);
 }

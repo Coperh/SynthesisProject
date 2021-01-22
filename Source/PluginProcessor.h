@@ -17,12 +17,12 @@ using juce::Synthesiser;
 //==============================================================================
 /**
 */
-class SynthesisProjectAudioProcessor  : public juce::AudioProcessor
+class UilleannPipesAudioProcessor  : public juce::AudioProcessor
 {
 public:
     //==============================================================================
-    SynthesisProjectAudioProcessor();
-    ~SynthesisProjectAudioProcessor() override;
+    UilleannPipesAudioProcessor();
+    ~UilleannPipesAudioProcessor() override;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -59,6 +59,8 @@ public:
 
 
 
+    void toggleDrone(bool state);
+
 
     juce::MidiKeyboardState keyboardState;
 
@@ -71,6 +73,8 @@ private:
 
     double lastSampleRate;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthesisProjectAudioProcessor)
+    bool droneEnabled;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UilleannPipesAudioProcessor)
 
 };

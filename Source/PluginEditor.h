@@ -16,11 +16,11 @@
 //==============================================================================
 /**
 */
-class SynthesisProjectAudioProcessorEditor  : public juce::AudioProcessorEditor
+class UilleannPipesAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
-    SynthesisProjectAudioProcessorEditor (SynthesisProjectAudioProcessor&);
-    ~SynthesisProjectAudioProcessorEditor() override;
+    UilleannPipesAudioProcessorEditor (UilleannPipesAudioProcessor&);
+    ~UilleannPipesAudioProcessorEditor() override;
 
     //==============================================================================
     void paint (juce::Graphics&) override;
@@ -30,15 +30,17 @@ public:
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    SynthesisProjectAudioProcessor& audioProcessor;
+    UilleannPipesAudioProcessor& audioProcessor;
 
 
     KeyboardListener keyboardListener;
     juce::MidiKeyboardComponent keyboardComponent;
 
+    juce::ToggleButton droneToggle;
+
 
 
     double startTime;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthesisProjectAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UilleannPipesAudioProcessorEditor)
 };
