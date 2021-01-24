@@ -68,7 +68,7 @@ void SynthVoice::renderNextBlock(juce::AudioSampleBuffer& outputBuffer, int star
     juce::dsp::AudioBlock< float > audioBlock{ outputBuffer };
     sawOsc.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
     squareOsc.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
-    gain.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
+    //gain.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
 
     adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
 

@@ -25,6 +25,7 @@ UilleannPipesAudioProcessorEditor::UilleannPipesAudioProcessorEditor (UilleannPi
     // toggle when button is pressed
     droneToggle.onClick = [this]() { audioProcessor.toggleDrone(droneToggle.getToggleState()); };
 
+
     gainAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "GAIN", gainSlider);
 
     gainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
@@ -32,10 +33,14 @@ UilleannPipesAudioProcessorEditor::UilleannPipesAudioProcessorEditor (UilleannPi
     addAndMakeVisible(gainSlider);
 
 
-    addAndMakeVisible(keySelector);
 
-    keySelectorAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>
-        (audioProcessor.apvts, "OSC", keySelector);
+    
+
+    addAndMakeVisible(keySelector);
+    keySelector.addItem("D", 0);
+    keySelector.addItem("A", 1);
+
+    keySelectorAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts, "KEYSELECTION", keySelector);
 
 
 

@@ -194,8 +194,8 @@ void UilleannPipesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     }
 
 
-    auto g = apvts.getRawParameterValue("OSC");
-   
+    auto g = apvts.getRawParameterValue("KEYSELECTION");
+    juce::Logger::outputDebugString(std::to_string(g->load()));
 
 }
 
@@ -246,10 +246,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout  UilleannPipesAudioProcessor
 
     
 
-    //params.push_back(std::make_unique<juce::AudioParameterChoice>("KEYSELECTION", "Key", juce::StringArray{ "D","A" }, 0));
-
-    
-    params.push_back(std::make_unique<juce::AudioParameterChoice>("OSC", "Oscillator", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("KEYSELECTION", "Key Selection", juce::StringArray{ "D","A" }, 1));
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", 0.0f, 1.0f, 0.8f));
 
