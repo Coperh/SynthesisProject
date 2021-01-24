@@ -64,26 +64,32 @@ public:
 
     juce::MidiKeyboardState keyboardState;
 
+
+    juce::AudioProcessorValueTreeState apvts;
+
 private:
     //==============================================================================
 
-    juce::dsp::Oscillator<float> droneHigh{ [](float x) { return x < 0.0f ? -1.0f : 1.0f;  } };
-    juce::dsp::Oscillator<float> droneLow{ [](float x) { return x < 0.0f ? -1.0f : 1.0f;  } };
+
+    juce::AudioProcessorValueTreeState::ParameterLayout  createParameters();
+
+
+
+
+
+    juce::dsp::Oscillator<float> droneHighPulse{ [](float x) { return x < 0.0f ? -1.0f : 1.0f;  } };
+    juce::dsp::Oscillator<float> droneHighSaw{ [](float x) { return x / juce::MathConstants<float>::pi;  } };
+    juce::dsp::Oscillator<float> droneLowPulse{ [](float x) { return x < 0.0f ? -1.0f : 1.0f;  } };
+    juce::dsp::Oscillator<float> droneLowSaw{ [](float x) { return x / juce::MathConstants<float>::pi;  } };
 
     float droneFrequency = 146.83;
-
-
 
 
 
     juce::Synthesiser syntheiser;
 
     
-
-
-    juce::MidiMessageCollector midiCollector;
-
-    double lastSampleRate;
+    
     bool droneEnabled;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UilleannPipesAudioProcessor)

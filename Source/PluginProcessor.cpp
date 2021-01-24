@@ -19,7 +19,7 @@ UilleannPipesAudioProcessor::UilleannPipesAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), apvts(*this, nullptr, "Parameters", createParameters() )
 #endif
 {
     syntheiser.addSound(new SynthSound());
@@ -115,10 +115,15 @@ void UilleannPipesAudioProcessor::prepareToPlay (double sampleRate, int samplesP
     spec.maximumBlockSize = samplesPerBlock;
     spec.numChannels = getNumOutputChannels();
 
-    droneHigh.prepare(spec);
-    droneHigh.setFrequency(droneFrequency);
-    droneLow.prepare(spec);
-    droneLow.setFrequency(droneFrequency/2);
+    droneHighPulse.prepare(spec);
+    droneHighPulse.setFrequency(droneFrequency);
+    droneHighSaw.prepare(spec);
+    droneHighSaw.setFrequency(droneFrequency);
+
+    droneLowPulse.prepare(spec);
+    droneLowPulse.setFrequency(droneFrequency/2);
+    droneLowSaw.prepare(spec);
+    droneLowSaw.setFrequency(droneFrequency / 2);
 
 }
 
@@ -181,18 +186,16 @@ void UilleannPipesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     if (droneEnabled) 
     {
        
-        droneHigh.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
-        droneLow.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
+        droneHighPulse.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
+        droneHighSaw.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
+        droneLowPulse.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
+        droneLowSaw.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
     
     }
 
 
-    
-    
-
-    
-    
-
+    auto g = apvts.getRawParameterValue("OSC");
+   
 
 }
 
@@ -235,4 +238,21 @@ void UilleannPipesAudioProcessor::toggleDrone(bool state) {
     juce::Logger::outputDebugString("Drone: " + std::to_string(droneEnabled));
 }
 
+juce::AudioProcessorValueTreeState::ParameterLayout  UilleannPipesAudioProcessor::createParameters() {
 
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+
+    // combo box switch drone key
+
+    
+
+    //params.push_back(std::make_unique<juce::AudioParameterChoice>("KEYSELECTION", "Key", juce::StringArray{ "D","A" }, 0));
+
+    
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("OSC", "Oscillator", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
+
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", 0.0f, 1.0f, 0.8f));
+
+
+    return { params.begin(), params.end() };
+};

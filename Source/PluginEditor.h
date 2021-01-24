@@ -10,7 +10,6 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "KeyboardListener.h"
 
 
 //==============================================================================
@@ -33,15 +32,20 @@ private:
     UilleannPipesAudioProcessor& audioProcessor;
 
 
-    KeyboardListener keyboardListener;
     juce::MidiKeyboardComponent keyboardComponent;
 
     juce::ToggleButton droneToggle;
 
     juce::Slider gainSlider;
+    juce::ComboBox keySelector;
+
+    using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
 
-    double startTime;
+    std::unique_ptr <SliderAttachment> gainAttachment;
+
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> keySelectorAttachment;
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UilleannPipesAudioProcessorEditor)
 };
