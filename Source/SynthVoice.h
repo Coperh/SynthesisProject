@@ -38,10 +38,15 @@ private:
     juce::ADSR adsr;
     juce::ADSR::Parameters adsrParams;
 
+    juce::AudioBuffer<float> synthBuffer;
+
+    juce::dsp::StateVariableTPTFilter<float> filter;
+
+
     bool isPrepared{ false };
 
     juce::dsp::Oscillator<float> sawOsc { [](float x) { return x / juce::MathConstants<float>::pi; } };
-    juce::dsp::Oscillator<float> squareOsc { [](float x) { return x < 0.0f ? -1.0f : 1.0f;  } };
+    juce::dsp::Oscillator<float> squareOsc{ [](float x) { return x < 0.0f ? -1.0f : 1.0f; }, 100 };
 
     // return std::sin (x); //Sine Wave
     // return x / MathConstants<float>::pi; // Saw Wave

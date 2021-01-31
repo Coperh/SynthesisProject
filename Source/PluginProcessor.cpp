@@ -246,7 +246,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout  UilleannPipesAudioProcessor
 
     
 
-    params.push_back(std::make_unique<juce::AudioParameterChoice>("KEYSELECTION", "Key Selection", juce::StringArray{ "D","A" }, 1));
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("KEYSELECTION", "Key Selection", juce::StringArray{ "D","A" }, 0));
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", 0.0f, 1.0f, 0.8f));
 

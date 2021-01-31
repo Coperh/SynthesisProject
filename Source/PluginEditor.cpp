@@ -37,8 +37,8 @@ UilleannPipesAudioProcessorEditor::UilleannPipesAudioProcessorEditor (UilleannPi
     
 
     addAndMakeVisible(keySelector);
-    keySelector.addItem("D", 0);
-    keySelector.addItem("A", 1);
+    keySelector.addItem("D", 1);
+    keySelector.addItem("A", 2);
 
     keySelectorAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts, "KEYSELECTION", keySelector);
 
