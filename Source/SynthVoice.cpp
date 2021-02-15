@@ -19,7 +19,7 @@ void SynthVoice::startNote(int midiNoteNumber, float velocity,
     juce::SynthesiserSound* sound, int currentPitchWheelPosition)
 {
     sawOsc.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
-    squareOsc.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
+    triangleOsc.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
 
     adsr.noteOn();
 }
@@ -49,7 +49,7 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outPu
     spec.numChannels = outPutChannels;
 
     sawOsc.prepare(spec);
-    squareOsc.prepare(spec);
+    triangleOsc.prepare(spec);
 
     gain.prepare(spec);
     gain.setGainLinear(0.5f);
@@ -89,9 +89,12 @@ void SynthVoice::renderNextBlock(juce::AudioSampleBuffer& outputBuffer, int star
 
 
     // allias for the output buffer
+
     juce::dsp::AudioBlock< float > audioBlock{ synthBuffer };
     sawOsc.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
-    squareOsc.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
+
+    triangleOsc.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
+
     gain.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
 
     filter.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});

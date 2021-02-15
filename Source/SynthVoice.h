@@ -11,6 +11,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "SynthSound.h"
+#include "CustomOscilator.h"
 
 
 
@@ -45,8 +46,8 @@ private:
 
     bool isPrepared{ false };
 
-    juce::dsp::Oscillator<float> sawOsc { [](float x) { return x / juce::MathConstants<float>::pi; } };
-    juce::dsp::Oscillator<float> squareOsc{ [](float x) { return x < 0.0f ? -1.0f : 1.0f; }, 100 };
+    juce::dsp::Oscillator<float> sawOsc { Oscillators<float>::Saw };
+    juce::dsp::Oscillator<float> triangleOsc{ Oscillators<float>::Triangle };
 
     // return std::sin (x); //Sine Wave
     // return x / MathConstants<float>::pi; // Saw Wave
