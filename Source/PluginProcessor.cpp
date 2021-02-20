@@ -22,10 +22,35 @@ UilleannPipesAudioProcessor::UilleannPipesAudioProcessor()
                        ), apvts(*this, nullptr, "Parameters", createParameters() )
 #endif
 {
-    syntheiser.addSound(new SynthSound());
 
-    syntheiser.addVoice(new SynthVoice());
+    
 
+
+    juce::WavAudioFormat wavFormat;
+    std::unique_ptr<juce::AudioFormatReader> reader(wavFormat.createReaderFor(new juce::MemoryInputStream(BinaryData::drone_wav, BinaryData::drone_wavSize, false), true));
+
+
+   // if false, resource is missing
+    if (reader.get() != nullptr) {
+
+        // duration of sample
+        auto duration = (float)reader->lengthInSamples / reader->sampleRate;
+
+        // range of midi notes, full range
+        juce::BigInteger range;
+        range.setRange(0, 128, true);
+
+        // add sample, D3 being note 38
+        syntheiser.addSound(new juce::SamplerSound("Sample", *reader, range, 38, 0.1, 0.1, duration));
+  
+
+
+        syntheiser.addVoice(new juce::SamplerVoice());
+
+
+        samplesRead = true;
+    }
+    else juce::Logger::outputDebugString("Failed to read file");
 
 
     droneEnabled = false;
@@ -100,15 +125,18 @@ void UilleannPipesAudioProcessor::changeProgramName (int index, const juce::Stri
 //==============================================================================
 void UilleannPipesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    
+
     syntheiser.setCurrentPlaybackSampleRate(sampleRate);
 
+    
     for (int i = 0; i < syntheiser.getNumVoices(); i++) {
         
         if (auto voice = dynamic_cast<SynthVoice*>(syntheiser.getVoice(i))) {
             voice->prepareToPlay(sampleRate, samplesPerBlock, getTotalNumInputChannels());
         }
     }
-
+    
 
     juce::dsp::ProcessSpec spec;
     spec.sampleRate = sampleRate;
@@ -169,20 +197,12 @@ void UilleannPipesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     
     // gets midi buffer from keyboar state and inserts it into current buffer
     keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(),true);
-
-    
-    for (int i = 0; i < syntheiser.getNumVoices(); ++i)
-    {
-        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(syntheiser.getVoice(i))) {
-            //adsr
-        }
-    }
-    
+ 
     syntheiser.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
     juce::dsp::AudioBlock< float > audioBlock{ buffer };
 
-
+    /*
     if (droneEnabled) 
     {
        
@@ -192,10 +212,15 @@ void UilleannPipesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
         droneLowSaw.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
     
     }
+    */
+
+    // if (!samplesRead) juce::Logger::outputDebugString("Failed to read file");
+   
 
 
-    auto g = apvts.getRawParameterValue("KEYSELECTION");
-    juce::Logger::outputDebugString(std::to_string(g->load()));
+
+    //auto g = apvts.getRawParameterValue("KEYSELECTION");
+    //juce::Logger::outputDebugString(std::to_string(g->load()));
 
 }
 
@@ -234,8 +259,9 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 void UilleannPipesAudioProcessor::toggleDrone(bool state) {
     droneEnabled = state;
 
-
     juce::Logger::outputDebugString("Drone: " + std::to_string(droneEnabled));
+
+
 }
 
 juce::AudioProcessorValueTreeState::ParameterLayout  UilleannPipesAudioProcessor::createParameters() {
@@ -253,3 +279,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout  UilleannPipesAudioProcessor
 
     return { params.begin(), params.end() };
 };
+
+
+
+
