@@ -143,6 +143,7 @@ void UilleannPipesAudioProcessor::prepareToPlay (double sampleRate, int samplesP
     spec.maximumBlockSize = samplesPerBlock;
     spec.numChannels = getNumOutputChannels();
 
+    /*
     droneHighPulse.prepare(spec);
     droneHighPulse.setFrequency(droneFrequency);
     droneHighSaw.prepare(spec);
@@ -152,7 +153,7 @@ void UilleannPipesAudioProcessor::prepareToPlay (double sampleRate, int samplesP
     droneLowPulse.setFrequency(droneFrequency/2);
     droneLowSaw.prepare(spec);
     droneLowSaw.setFrequency(droneFrequency / 2);
-
+    */
 }
 
 void UilleannPipesAudioProcessor::releaseResources()
