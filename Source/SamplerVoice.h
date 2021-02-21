@@ -10,11 +10,15 @@
 
 #pragma once
 #include <JuceHeader.h>
-#include "SamplerSound.h"
+#include "SynthSound.h"
 
-class CustomSamplerVoice : public juce::SamplerVoice{
+class CustomSamplerVoice : public juce::SynthesiserVoice {
 
 public:
+
+    CustomSamplerVoice();
+
+
     bool canPlaySound(juce::SynthesiserSound* sound) override;
 
     void startNote(int midiNoteNumber, float velocity,
@@ -30,8 +34,26 @@ public:
     void renderNextBlock(juce::AudioSampleBuffer& outputBuffer,
         int startSample, int numSamples) override;
 
+    void prepareToPlay(double sampleRate, int samplesPerBlock, int outPutChannels);
+
+private:
 
 
 
+    float currentLevel = 0.0f, previousLevel = 0.0f;
+    
+    
+    float offset = 1.0f;
+    float position = 0.0f;
+    double baseFreqency;
 
+
+    bool isPrepared = false;
+
+    juce::ADSR adsr;
+    juce::ADSR::Parameters adsrParams;
+
+    juce::AudioBuffer<float> synthBuffer;
+
+    juce::AudioSampleBuffer fileBuffer;
 };

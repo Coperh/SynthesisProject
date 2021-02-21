@@ -23,34 +23,12 @@ UilleannPipesAudioProcessor::UilleannPipesAudioProcessor()
 #endif
 {
 
+
+
+    syntheiser.addSound(new SynthSound());
+    syntheiser.addVoice(new CustomSamplerVoice());
     
-
-
-    juce::WavAudioFormat wavFormat;
-    std::unique_ptr<juce::AudioFormatReader> reader(wavFormat.createReaderFor(new juce::MemoryInputStream(BinaryData::drone_wav, BinaryData::drone_wavSize, false), true));
-
-
-   // if false, resource is missing
-    if (reader.get() != nullptr) {
-
-        // duration of sample
-        auto duration = (float)reader->lengthInSamples / reader->sampleRate;
-
-        // range of midi notes, full range
-        juce::BigInteger range;
-        range.setRange(0, 128, true);
-
-        // add sample, D3 being note 38
-        syntheiser.addSound(new juce::SamplerSound("Sample", *reader, range, 38, 0.1, 0.1, duration));
-  
-
-
-        syntheiser.addVoice(new juce::SamplerVoice());
-
-
-        samplesRead = true;
-    }
-    else juce::Logger::outputDebugString("Failed to read file");
+    
 
 
     droneEnabled = false;
@@ -132,10 +110,12 @@ void UilleannPipesAudioProcessor::prepareToPlay (double sampleRate, int samplesP
     
     for (int i = 0; i < syntheiser.getNumVoices(); i++) {
         
-        if (auto voice = dynamic_cast<SynthVoice*>(syntheiser.getVoice(i))) {
+        if (auto voice = dynamic_cast<CustomSamplerVoice*>(syntheiser.getVoice(i))) {
             voice->prepareToPlay(sampleRate, samplesPerBlock, getTotalNumInputChannels());
         }
     }
+    
+
     
 
     juce::dsp::ProcessSpec spec;

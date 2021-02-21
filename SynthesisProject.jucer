@@ -7,16 +7,19 @@
   <MAINGROUP id="Gn5W42" name="UilleannPipes">
     <GROUP id="{BE55EA4C-3316-6427-81E2-C172EE84932B}" name="Source">
       <GROUP id="{819D134D-52EF-B22D-260F-5DFB9EEF1C4D}" name="old classes">
-        <FILE id="bZBAr4" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
         <FILE id="Cpb60W" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
         <FILE id="d3IZlt" name="SynthVoice.cpp" compile="1" resource="0" file="Source/SynthVoice.cpp"/>
         <FILE id="xLb5H5" name="CustomOscilator.h" compile="0" resource="0"
               file="Source/CustomOscilator.h"/>
       </GROUP>
       <GROUP id="{49A303B5-65FE-F4FB-B5FD-BA7968BC48F7}" name="Resources">
+        <FILE id="yQiaey" name="sine441.wav" compile="0" resource="1" file="C:/Users/chold/Downloads/LoopingAudioSampleBufferTutorial(1)/LoopingAudioSampleBufferTutorial/Resources/sine441.wav"/>
+        <FILE id="PQdKT4" name="cello.wav" compile="0" resource="1" file="C:/Users/chold/Downloads/LoopingAudioSampleBufferTutorial(1)/LoopingAudioSampleBufferTutorial/Resources/cello.wav"/>
         <FILE id="y10k05" name="drone.wav" compile="0" resource="1" file="C:/Users/chold/Documents/Audacity/drone.wav"/>
       </GROUP>
-      <FILE id="Fm2mof" name="SamplerSound.h" compile="0" resource="0" file="Source/SamplerSound.h"/>
+      <FILE id="HNg9Mu" name="WavetableOscilator.h" compile="0" resource="0"
+            file="Source/WavetableOscilator.h"/>
+      <FILE id="bZBAr4" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
       <FILE id="fSQte1" name="SamplerVoice.h" compile="0" resource="0" file="Source/SamplerVoice.h"/>
       <FILE id="uIHuAF" name="SamplerVoice.cpp" compile="1" resource="0"
             file="Source/SamplerVoice.cpp"/>

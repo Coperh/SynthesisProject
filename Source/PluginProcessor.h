@@ -9,7 +9,6 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "SamplerSound.h"
 #include "SamplerVoice.h"
 #include "SynthVoice.h"
 #include "SynthSound.h"
