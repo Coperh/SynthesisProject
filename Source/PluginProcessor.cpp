@@ -29,8 +29,7 @@ UilleannPipesAudioProcessor::UilleannPipesAudioProcessor()
     syntheiser.addVoice(new CustomSamplerVoice());
     
     
-
-
+    readDroneSample();
     droneEnabled = false;
 }
 
@@ -101,39 +100,33 @@ void UilleannPipesAudioProcessor::changeProgramName (int index, const juce::Stri
 }
 
 //==============================================================================
-void UilleannPipesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void UilleannPipesAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-    
+
 
     syntheiser.setCurrentPlaybackSampleRate(sampleRate);
 
-    
+
     for (int i = 0; i < syntheiser.getNumVoices(); i++) {
-        
+
         if (auto voice = dynamic_cast<CustomSamplerVoice*>(syntheiser.getVoice(i))) {
             voice->prepareToPlay(sampleRate, samplesPerBlock, getTotalNumInputChannels());
         }
     }
-    
 
-    
 
-    juce::dsp::ProcessSpec spec;
-    spec.sampleRate = sampleRate;
-    spec.maximumBlockSize = samplesPerBlock;
-    spec.numChannels = getNumOutputChannels();
 
-    /*
-    droneHighPulse.prepare(spec);
-    droneHighPulse.setFrequency(droneFrequency);
-    droneHighSaw.prepare(spec);
-    droneHighSaw.setFrequency(droneFrequency);
+    // setup adsr for drone
+    droneAdsr.setSampleRate(sampleRate);
 
-    droneLowPulse.prepare(spec);
-    droneLowPulse.setFrequency(droneFrequency/2);
-    droneLowSaw.prepare(spec);
-    droneLowSaw.setFrequency(droneFrequency / 2);
-    */
+    droneAdsrParams.attack = 0.1f;
+    droneAdsrParams.sustain = 1.0f;
+    droneAdsrParams.decay = 0.0f;
+    droneAdsrParams.release = 0.2f;
+
+    droneAdsr.setParameters(droneAdsrParams);
+
+
 }
 
 void UilleannPipesAudioProcessor::releaseResources()
@@ -175,27 +168,70 @@ void UilleannPipesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear(i, 0, buffer.getNumSamples());
 
-    
+
+    int numSamples = buffer.getNumSamples();
+
+
     // gets midi buffer from keyboar state and inserts it into current buffer
-    keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(),true);
+    keyboardState.processNextMidiBuffer(midiMessages, 0, numSamples,true);
  
-    syntheiser.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+    syntheiser.renderNextBlock(buffer, midiMessages, 0, numSamples);
 
-    juce::dsp::AudioBlock< float > audioBlock{ buffer };
 
-    /*
-    if (droneEnabled) 
+    
+
+
+    if (droneAdsr.isActive())
     {
+
+        droneBuffer.setSize(buffer.getNumChannels(), numSamples, false, false, true);
+
+        droneBuffer.clear();
+
+        auto numInputChannels = droneBuffer.getNumChannels();
+        auto numOutputChannels = fileBuffer.getNumChannels();
+
        
-        droneHighPulse.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
-        droneHighSaw.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
-        droneLowPulse.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
-        droneLowSaw.process(juce::dsp::ProcessContextReplacing<float>{audioBlock});
+        for (auto sample = 0; sample < droneBuffer.getNumSamples(); ++sample) {
+
+
+            // Highest multiple of the offset below the max
+            // number of samples divided by the offset floored multiplied by the offset
+
+
+            for (auto channel = 0; channel < numOutputChannels; ++channel) {
+
+                auto writePointer = droneBuffer.getWritePointer(channel);
+                // possible that there might be more output channels
+                auto readPointer = fileBuffer.getReadPointer(channel);
+
+                writePointer[sample] = readPointer[dronePosition];
+
+            }
+
+            dronePosition += 1;
+
+
+
+            if (  dronePosition == fileBuffer.getNumSamples())
+                dronePosition = 0;
+
+        }
+   
+        // apply to buffer.
+        droneAdsr.applyEnvelopeToBuffer(droneBuffer, 0, numSamples);
+
+        for (int channel = 0; channel < buffer.getNumChannels(); ++channel) {
+
+           buffer.addFrom(channel, 0, droneBuffer, channel, 0, numSamples);
+
+        }
+
+
     
     }
-    */
+    
 
-    // if (!samplesRead) juce::Logger::outputDebugString("Failed to read file");
    
 
 
@@ -240,6 +276,14 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 void UilleannPipesAudioProcessor::toggleDrone(bool state) {
     droneEnabled = state;
 
+
+    if (state){ 
+        droneAdsr.noteOn();
+        dronePosition = 0;
+    }
+    else droneAdsr.noteOff();
+    
+
     juce::Logger::outputDebugString("Drone: " + std::to_string(droneEnabled));
 
 
@@ -261,6 +305,45 @@ juce::AudioProcessorValueTreeState::ParameterLayout  UilleannPipesAudioProcessor
     return { params.begin(), params.end() };
 };
 
+
+void UilleannPipesAudioProcessor::readDroneSample(){
+
+
+
+    juce::WavAudioFormat wavFormat;
+
+    std::unique_ptr<juce::AudioFormatReader> reader(wavFormat.createReaderFor(
+        new juce::MemoryInputStream(BinaryData::sine441_wav, BinaryData::sine441_wavSize, false), true));
+
+
+    if (reader.get() != nullptr)
+    {
+        auto duration = (float)reader->lengthInSamples / reader->sampleRate;
+
+        if (duration < 2)
+        {
+
+
+            fileBuffer.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
+            reader->read(&fileBuffer,
+                0,
+                (int)reader->lengthInSamples,
+                0,
+                true,
+                true);
+            dronePosition = 0.0;
+
+        }
+        else
+        {
+            // handle the error that the file is 2 seconds or longer..
+        }
+    }
+    else juce::Logger::outputDebugString("-- Could not read file");
+
+
+
+}
 
 
 

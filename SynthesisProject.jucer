@@ -17,8 +17,6 @@
         <FILE id="PQdKT4" name="cello.wav" compile="0" resource="1" file="C:/Users/chold/Downloads/LoopingAudioSampleBufferTutorial(1)/LoopingAudioSampleBufferTutorial/Resources/cello.wav"/>
         <FILE id="y10k05" name="drone.wav" compile="0" resource="1" file="C:/Users/chold/Documents/Audacity/drone.wav"/>
       </GROUP>
-      <FILE id="HNg9Mu" name="WavetableOscilator.h" compile="0" resource="0"
-            file="Source/WavetableOscilator.h"/>
       <FILE id="bZBAr4" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
       <FILE id="fSQte1" name="SamplerVoice.h" compile="0" resource="0" file="Source/SamplerVoice.h"/>
       <FILE id="uIHuAF" name="SamplerVoice.cpp" compile="1" resource="0"

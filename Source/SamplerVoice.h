@@ -45,6 +45,7 @@ private:
     
     float offset = 1.0f;
     float position = 0.0f;
+
     double baseFreqency;
 
 

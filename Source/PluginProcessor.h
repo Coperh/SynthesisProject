@@ -91,12 +91,22 @@ private:
     juce::Synthesiser syntheiser;
 
     
-    
-    bool droneEnabled;
+
+    // Drone Sample things
+    void readDroneSample();
 
     bool samplesRead = false;
+    int dronePosition;
+    bool droneEnabled;
+
+    // drone adsr
+    juce::ADSR droneAdsr;
+    juce::ADSR::Parameters droneAdsrParams;
 
 
+    // temp buffer and file buffer
+    juce::AudioBuffer<float> droneBuffer;
+    juce::AudioBuffer<float> fileBuffer;
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UilleannPipesAudioProcessor)
