@@ -38,15 +38,17 @@ public:
 
 private:
 
+    // imports all samples
+    void importSamples();
+    // import individual sample
+    void readSample(const void* sourceData, int sourceDatasize, int index);
 
 
     float currentLevel = 0.0f, previousLevel = 0.0f;
     
     
-    float offset = 1.0f;
-    float position = 0.0f;
+    int position = 0;
 
-    double baseFreqency;
 
 
     bool isPrepared = false;
@@ -56,5 +58,14 @@ private:
 
     juce::AudioBuffer<float> synthBuffer;
 
-    juce::AudioSampleBuffer fileBuffer;
+
+    // buffer for notes
+    static const int numNotes = 14;
+
+    std::array<juce::AudioSampleBuffer, numNotes> notesBuffer;
+
+    int currentNoteIndex = 0;
+
+
+    juce::AudioSampleBuffer * currentSampleBuffer;
 };

@@ -313,7 +313,7 @@ void UilleannPipesAudioProcessor::readDroneSample(){
     juce::WavAudioFormat wavFormat;
 
     std::unique_ptr<juce::AudioFormatReader> reader(wavFormat.createReaderFor(
-        new juce::MemoryInputStream(BinaryData::sine441_wav, BinaryData::sine441_wavSize, false), true));
+        new juce::MemoryInputStream(BinaryData::gDrone_wav, BinaryData::gDrone_wavSize, false), true));
 
 
     if (reader.get() != nullptr)
