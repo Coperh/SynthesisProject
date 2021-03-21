@@ -48,6 +48,9 @@ private:
     juce::Slider droneGainSlider;
 
 
+    void createLabelForSlider(juce::Label& label, const char * text, juce::Slider& slider);
+
+
 
 
     juce::ComboBox keySelector;
@@ -58,6 +61,7 @@ private:
     std::unique_ptr <SliderAttachment> masterGainAttachment;
     std::unique_ptr <SliderAttachment> droneGainAttachment;
     std::unique_ptr <SliderAttachment> chantGainAttachment;
+    std::unique_ptr < juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> keySelectorAttachment;
 

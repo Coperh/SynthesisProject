@@ -20,11 +20,17 @@ UilleannPipesAudioProcessorEditor::UilleannPipesAudioProcessorEditor (UilleannPi
     addAndMakeVisible(keyboardComponent);
 
 
+
+    toggleAttachment = std::make_unique< juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.apvts, "DRONETOGGLE", droneToggle);
+
     addAndMakeVisible(droneToggle);
     droneToggle.setButtonText("Toggle Drone");
 
+
+
+
     // toggle when button is pressed
-    droneToggle.onClick = [this]() { audioProcessor.toggleDrone(droneToggle.getToggleState()); };
+    //droneToggle.onClick = [this]() { audioProcessor.toggleDrone(droneToggle.getToggleState()); };
 
 
 
@@ -34,11 +40,7 @@ UilleannPipesAudioProcessorEditor::UilleannPipesAudioProcessorEditor (UilleannPi
     masterGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 80, 40);
     addAndMakeVisible(masterGainSlider);
 
-
-    masterLabel.setText("Master", juce::dontSendNotification);
-    masterLabel.attachToComponent(&masterGainSlider, false);
-    masterLabel.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(masterLabel);
+    createLabelForSlider(masterLabel, "Master", masterGainSlider);
 
 
     // Drone Gaint sldier
@@ -47,10 +49,7 @@ UilleannPipesAudioProcessorEditor::UilleannPipesAudioProcessorEditor (UilleannPi
     droneGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 25);
     addAndMakeVisible(droneGainSlider);
 
-    droneLabel.setText("Drone", juce::dontSendNotification);
-    droneLabel.attachToComponent(&droneGainSlider, false);
-    droneLabel.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(droneLabel);
+    createLabelForSlider(droneLabel, "Drone", droneGainSlider);
 
     // Chanter Gaint Sldier
     chantGainAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "CHANTGAIN", chantGainSlider);
@@ -58,10 +57,7 @@ UilleannPipesAudioProcessorEditor::UilleannPipesAudioProcessorEditor (UilleannPi
     chantGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 25);
     addAndMakeVisible(chantGainSlider);
 
-    chantLabel.setText("Chanter", juce::dontSendNotification);
-    chantLabel.attachToComponent(&chantGainSlider, false);
-    chantLabel.setJustificationType(juce::Justification::centred);
-    addAndMakeVisible(chantLabel);
+    createLabelForSlider(chantLabel, "Chanter", chantGainSlider);
 
 
 
@@ -135,4 +131,20 @@ void UilleannPipesAudioProcessorEditor::resized()
 
 
     keySelector.setBounds(10, verticlePos+10, getHeight()/4, getHeight() / 8);
+}
+
+
+
+
+void UilleannPipesAudioProcessorEditor::createLabelForSlider(juce::Label& label, const char * text, juce::Slider & slider) {
+
+
+    label.setText(text, juce::dontSendNotification);
+    label.attachToComponent(&slider, false);
+    label.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(label);
+
+        
+
+
 }

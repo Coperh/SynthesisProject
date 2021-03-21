@@ -90,14 +90,15 @@ private:
 
     juce::Synthesiser syntheiser;
 
-    
+
 
     // Drone Sample things
     void readDroneSample();
 
     bool samplesRead = false;
     int dronePosition;
-    bool droneEnabled;
+
+    bool droneLastState;
 
     // drone adsr
     juce::ADSR droneAdsr;
@@ -112,3 +113,6 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UilleannPipesAudioProcessor)
 
 };
+
+
+

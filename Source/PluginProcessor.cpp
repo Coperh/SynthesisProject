@@ -23,14 +23,13 @@ UilleannPipesAudioProcessor::UilleannPipesAudioProcessor()
 #endif
 {
 
-
-
+    
     syntheiser.addSound(new SynthSound());
     syntheiser.addVoice(new CustomSamplerVoice());
     
     
     readDroneSample();
-    droneEnabled = false;
+    droneLastState = false;
 }
 
 UilleannPipesAudioProcessor::~UilleannPipesAudioProcessor()
@@ -177,6 +176,21 @@ void UilleannPipesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
  
     syntheiser.renderNextBlock(buffer, midiMessages, 0, numSamples);
 
+    buffer.applyGain(apvts.getRawParameterValue("CHANTGAIN")->load());
+    
+
+
+
+    float droneCurrentState = apvts.getRawParameterValue("DRONETOGGLE")->load();
+    // if drone state has changed, toggle function
+    if (droneLastState != droneCurrentState) {
+    
+        toggleDrone(droneCurrentState);
+        droneLastState = droneCurrentState;
+    
+    }
+
+
 
     
 
@@ -221,6 +235,10 @@ void UilleannPipesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
         // apply to buffer.
         droneAdsr.applyEnvelopeToBuffer(droneBuffer, 0, numSamples);
 
+
+
+        droneBuffer.applyGain(apvts.getRawParameterValue("DRONEGAIN")->load());
+
         for (int channel = 0; channel < buffer.getNumChannels(); ++channel) {
 
            buffer.addFrom(channel, 0, droneBuffer, channel, 0, numSamples);
@@ -228,13 +246,13 @@ void UilleannPipesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
         }
 
 
-    
+       
     }
     
 
    
 
-
+    buffer.applyGain(apvts.getRawParameterValue("MASTERGAIN")->load());
 
     //auto g = apvts.getRawParameterValue("KEYSELECTION");
     //juce::Logger::outputDebugString(std::to_string(g->load()));
@@ -274,8 +292,6 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 }
 
 void UilleannPipesAudioProcessor::toggleDrone(bool state) {
-    droneEnabled = state;
-
 
     if (state){ 
         droneAdsr.noteOn();
@@ -283,10 +299,6 @@ void UilleannPipesAudioProcessor::toggleDrone(bool state) {
     }
     else droneAdsr.noteOff();
     
-
-    juce::Logger::outputDebugString("Drone: " + std::to_string(droneEnabled));
-
-
 }
 
 juce::AudioProcessorValueTreeState::ParameterLayout  UilleannPipesAudioProcessor::createParameters() {
@@ -304,6 +316,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout  UilleannPipesAudioProcessor
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DRONEGAIN", "Drone Gain", 0.0f, 1.0f, 1.0f));
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("CHANTGAIN", "Chanter Gain", 0.0f, 1.0f, 1.0f));
+
+    params.push_back(std::make_unique<juce::AudioParameterBool>("DRONETOGGLE", "Drone Toggle", false));
 
 
     return { params.begin(), params.end() };
