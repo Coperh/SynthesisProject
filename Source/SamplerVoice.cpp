@@ -253,7 +253,7 @@ void CustomSamplerVoice::readSample(const void * sourceData, int sourceDatasize,
                 0,
                 true,
                 true);
-            position = 0.0;
+            position = 0;
 
         }
         else

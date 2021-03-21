@@ -13,21 +13,21 @@
               file="Source/CustomOscilator.h"/>
       </GROUP>
       <GROUP id="{49A303B5-65FE-F4FB-B5FD-BA7968BC48F7}" name="Resources">
-        <FILE id="KDzSNM" name="b5.wav" compile="0" resource="1" file="../../Resources/b5.wav"/>
-        <FILE id="UD7CFW" name="c6.wav" compile="0" resource="1" file="../../Resources/c6.wav"/>
-        <FILE id="Zl7Jcv" name="c7.wav" compile="0" resource="1" file="../../Resources/c7.wav"/>
-        <FILE id="XE2zcv" name="cS6.wav" compile="0" resource="1" file="../../Resources/cS6.wav"/>
-        <FILE id="p0Wbp6" name="d5.wav" compile="0" resource="1" file="../../Resources/d5.wav"/>
-        <FILE id="Y9Jpa3" name="d6.wav" compile="0" resource="1" file="../../Resources/d6.wav"/>
-        <FILE id="vhuiOQ" name="e5.wav" compile="0" resource="1" file="../../Resources/e5.wav"/>
-        <FILE id="oi75E6" name="e6.wav" compile="0" resource="1" file="../../Resources/e6.wav"/>
-        <FILE id="iBlljS" name="f5.wav" compile="0" resource="1" file="../../Resources/f5.wav"/>
-        <FILE id="OeQtiR" name="f6.wav" compile="0" resource="1" file="../../Resources/f6.wav"/>
-        <FILE id="PVgxck" name="g5.wav" compile="0" resource="1" file="../../Resources/g5.wav"/>
-        <FILE id="w6FazH" name="g6.wav" compile="0" resource="1" file="../../Resources/g6.wav"/>
-        <FILE id="wTI4Zx" name="a5.wav" compile="0" resource="1" file="../../Resources/a5.wav"/>
-        <FILE id="ADMUaG" name="a6.wav" compile="0" resource="1" file="../../Resources/a6.wav"/>
-        <FILE id="HGsKOY" name="gDrone.wav" compile="0" resource="1" file="../../Resources/gDrone.wav"/>
+        <FILE id="NNcuXH" name="a6.wav" compile="0" resource="1" file="Resources/a6.wav"/>
+        <FILE id="MRbJk0" name="b5.wav" compile="0" resource="1" file="Resources/b5.wav"/>
+        <FILE id="k9SmAC" name="c6.wav" compile="0" resource="1" file="Resources/c6.wav"/>
+        <FILE id="mDTig4" name="c7.wav" compile="0" resource="1" file="Resources/c7.wav"/>
+        <FILE id="O9h8zF" name="cS6.wav" compile="0" resource="1" file="Resources/cS6.wav"/>
+        <FILE id="Vgq2Ml" name="d5.wav" compile="0" resource="1" file="Resources/d5.wav"/>
+        <FILE id="UL7aJl" name="d6.wav" compile="0" resource="1" file="Resources/d6.wav"/>
+        <FILE id="W9MmLf" name="e5.wav" compile="0" resource="1" file="Resources/e5.wav"/>
+        <FILE id="j7mYQX" name="e6.wav" compile="0" resource="1" file="Resources/e6.wav"/>
+        <FILE id="QWbaRb" name="f5.wav" compile="0" resource="1" file="Resources/f5.wav"/>
+        <FILE id="EV6kVK" name="f6.wav" compile="0" resource="1" file="Resources/f6.wav"/>
+        <FILE id="fbWdQk" name="g5.wav" compile="0" resource="1" file="Resources/g5.wav"/>
+        <FILE id="ug69AG" name="g6.wav" compile="0" resource="1" file="Resources/g6.wav"/>
+        <FILE id="FsRcc8" name="gDrone.wav" compile="0" resource="1" file="Resources/gDrone.wav"/>
+        <FILE id="ZavhhI" name="a5.wav" compile="0" resource="1" file="Resources/a5.wav"/>
       </GROUP>
       <FILE id="bZBAr4" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
       <FILE id="fSQte1" name="SamplerVoice.h" compile="0" resource="0" file="Source/SamplerVoice.h"/>

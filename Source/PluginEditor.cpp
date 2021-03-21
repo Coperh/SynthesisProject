@@ -22,23 +22,51 @@ UilleannPipesAudioProcessorEditor::UilleannPipesAudioProcessorEditor (UilleannPi
 
     addAndMakeVisible(droneToggle);
     droneToggle.setButtonText("Toggle Drone");
+
     // toggle when button is pressed
     droneToggle.onClick = [this]() { audioProcessor.toggleDrone(droneToggle.getToggleState()); };
 
 
-    gainAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "GAIN", gainSlider);
 
-    gainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    gainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 50);
-    addAndMakeVisible(gainSlider);
+    // master gain slider
+    masterGainAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "MASTERGAIN", masterGainSlider);
+    masterGainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+    masterGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 80, 40);
+    addAndMakeVisible(masterGainSlider);
 
 
+    masterLabel.setText("Master", juce::dontSendNotification);
+    masterLabel.attachToComponent(&masterGainSlider, false);
+    masterLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(masterLabel);
 
-    
+
+    // Drone Gaint sldier
+    droneGainAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "DRONEGAIN", droneGainSlider);
+    droneGainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    droneGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 25);
+    addAndMakeVisible(droneGainSlider);
+
+    droneLabel.setText("Drone", juce::dontSendNotification);
+    droneLabel.attachToComponent(&droneGainSlider, false);
+    droneLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(droneLabel);
+
+    // Chanter Gaint Sldier
+    chantGainAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "CHANTGAIN", chantGainSlider);
+    chantGainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    chantGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 25);
+    addAndMakeVisible(chantGainSlider);
+
+    chantLabel.setText("Chanter", juce::dontSendNotification);
+    chantLabel.attachToComponent(&chantGainSlider, false);
+    chantLabel.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(chantLabel);
+
+
 
     addAndMakeVisible(keySelector);
-    keySelector.addItem("D", 1);
-    keySelector.addItem("A", 2);
+    keySelector.addItem("G", 1);
 
     keySelectorAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts, "KEYSELECTION", keySelector);
 
@@ -66,8 +94,45 @@ void UilleannPipesAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 
-    keyboardComponent.setBounds(0, 0, getWidth(), getHeight()/4);
-    droneToggle.setBounds(0, (getHeight() / 8) * 2, getWidth(), getHeight() / 8);
-    gainSlider.setBounds(getWidth()/2 - 100, (getHeight() / 8) * 3, 200, 100);
-    keySelector.setBounds(0, (getHeight() / 2), 100, 50);
+    
+
+
+
+
+    // at the bottom, takes one fourth of the screen
+    keyboardComponent.setBounds(0, (getHeight() - getHeight() / 4), getWidth(), getHeight()/4);
+
+
+
+
+    droneToggle.setBounds(10, 10, getHeight()/4, getHeight() / 4);
+
+
+    // right side, 3 fourths of the screen over, width of one fourth, height of 3 fourths
+    masterGainSlider.setBounds( ((getWidth()/4)*3)+10, 
+        30, 
+        (getWidth() / 4) - 20, 
+        ((getHeight() / 4) * 3) - 50);
+
+
+    int sliderHorPos = ((getWidth() / 4) * 2) + 20;
+
+    // half of 3 quarters of the height (h/4 * 3/2)
+    int verticlePos = (getHeight() * 3) / 8;
+
+
+    int sliderDim = verticlePos - 40;
+
+    droneGainSlider.setBounds(sliderHorPos,
+        30,
+        sliderDim,
+        sliderDim);
+
+    chantGainSlider.setBounds(sliderHorPos,
+        verticlePos +30,
+        sliderDim,
+        sliderDim);
+
+
+    keySelector.setBounds(10, verticlePos+10, getHeight()/4, getHeight() / 8);
 }

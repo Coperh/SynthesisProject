@@ -83,7 +83,7 @@ private:
     //juce::dsp::Oscillator<float> droneLowPulse{ [](float x) { return x < 0.0f ? -1.0f : 1.0f;  } };
     //juce::dsp::Oscillator<float> droneLowSaw{ [](float x) { return x / juce::MathConstants<float>::pi;  } };
 
-    float droneFrequency = 146.83;
+    float droneFrequency = 146.83f;
 
 
     int num_voices = 3;

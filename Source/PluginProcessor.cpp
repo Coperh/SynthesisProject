@@ -297,9 +297,13 @@ juce::AudioProcessorValueTreeState::ParameterLayout  UilleannPipesAudioProcessor
 
     
 
-    params.push_back(std::make_unique<juce::AudioParameterChoice>("KEYSELECTION", "Key Selection", juce::StringArray{ "D","A" }, 0));
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("KEYSELECTION", "Key Selection", juce::StringArray{ "G" }, 0));
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", 0.0f, 1.0f, 0.8f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("MASTERGAIN", "Master Gain", 0.0f, 1.0f, 0.8f));
+
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("DRONEGAIN", "Drone Gain", 0.0f, 1.0f, 1.0f));
+
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("CHANTGAIN", "Chanter Gain", 0.0f, 1.0f, 1.0f));
 
 
     return { params.begin(), params.end() };
@@ -331,7 +335,7 @@ void UilleannPipesAudioProcessor::readDroneSample(){
                 0,
                 true,
                 true);
-            dronePosition = 0.0;
+            dronePosition = 0;
 
         }
         else

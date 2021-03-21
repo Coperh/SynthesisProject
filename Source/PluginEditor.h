@@ -36,13 +36,28 @@ private:
 
     juce::ToggleButton droneToggle;
 
-    juce::Slider gainSlider;
+
+
+    juce::Label masterLabel;
+    juce::Slider masterGainSlider;
+
+    juce::Label chantLabel;
+    juce::Slider chantGainSlider;
+
+    juce::Label droneLabel;
+    juce::Slider droneGainSlider;
+
+
+
+
     juce::ComboBox keySelector;
 
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
 
-    std::unique_ptr <SliderAttachment> gainAttachment;
+    std::unique_ptr <SliderAttachment> masterGainAttachment;
+    std::unique_ptr <SliderAttachment> droneGainAttachment;
+    std::unique_ptr <SliderAttachment> chantGainAttachment;
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> keySelectorAttachment;
 
