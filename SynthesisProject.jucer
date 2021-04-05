@@ -3,7 +3,8 @@
 <JUCERPROJECT id="zWjEqu" name="UilleannPipes" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginFormats="buildAU,buildStandalone,buildVST3"
               pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
-              displaySplashScreen="1">
+              displaySplashScreen="1" pluginManufacturer="Conor Holden" pluginName="Uilleann Pipes"
+              pluginDesc="Uilleann Pipes sampler pluggin">
   <MAINGROUP id="Gn5W42" name="UilleannPipes">
     <GROUP id="{BE55EA4C-3316-6427-81E2-C172EE84932B}" name="Source">
       <GROUP id="{819D134D-52EF-B22D-260F-5DFB9EEF1C4D}" name="old classes">

@@ -356,6 +356,7 @@ void UilleannPipesAudioProcessor::readDroneSample(){
         {
             // handle the error that the file is 2 seconds or longer..
         }
+
     }
     else juce::Logger::outputDebugString("-- Could not read file");
 

@@ -18,6 +18,7 @@ UilleannPipesAudioProcessorEditor::UilleannPipesAudioProcessorEditor (UilleannPi
 
 
     addAndMakeVisible(keyboardComponent);
+    keyboardComponent.setAvailableRange(62, 84);
 
 
 
