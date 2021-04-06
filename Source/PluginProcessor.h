@@ -59,13 +59,14 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 
-
+    // toggles the drone to the passed state
     void toggleDrone(bool state);
 
 
+    // connects to the on screen keyboard to get input
     juce::MidiKeyboardState keyboardState;
 
-
+    // contains the parameters used in automation
     juce::AudioProcessorValueTreeState apvts;
 
 private:

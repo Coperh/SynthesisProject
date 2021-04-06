@@ -16,14 +16,15 @@ UilleannPipesAudioProcessorEditor::UilleannPipesAudioProcessorEditor (UilleannPi
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
 
-
+    // make keyboard visible
     addAndMakeVisible(keyboardComponent);
+    // set range of working notes
     keyboardComponent.setAvailableRange(62, 84);
 
 
-
+    // create attachment for the drone toggle
     toggleAttachment = std::make_unique< juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.apvts, "DRONETOGGLE", droneToggle);
-
+    // make button visible
     addAndMakeVisible(droneToggle);
     droneToggle.setButtonText("Toggle Drone");
 
@@ -33,7 +34,8 @@ UilleannPipesAudioProcessorEditor::UilleannPipesAudioProcessorEditor (UilleannPi
     // toggle when button is pressed
     //droneToggle.onClick = [this]() { audioProcessor.toggleDrone(droneToggle.getToggleState()); };
 
-
+    // Create the attahcment for sliders, set their style and make visible
+    // 
 
     // master gain slider
     masterGainAttachment = std::make_unique<SliderAttachment>(audioProcessor.apvts, "MASTERGAIN", masterGainSlider);
@@ -88,18 +90,11 @@ void UilleannPipesAudioProcessorEditor::paint(juce::Graphics& g)
 
 void UilleannPipesAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
-
+    // Sets the position on screen for every component
     
-
-
-
 
     // at the bottom, takes one fourth of the screen
     keyboardComponent.setBounds(0, (getHeight() - getHeight() / 4), getWidth(), getHeight()/4);
-
-
 
 
     droneToggle.setBounds(10, 10, getHeight()/4, getHeight() / 4);
@@ -139,7 +134,7 @@ void UilleannPipesAudioProcessorEditor::resized()
 
 void UilleannPipesAudioProcessorEditor::createLabelForSlider(juce::Label& label, const char * text, juce::Slider & slider) {
 
-
+    // set label text, attach to the slider, centre text and make the label visible
     label.setText(text, juce::dontSendNotification);
     label.attachToComponent(&slider, false);
     label.setJustificationType(juce::Justification::centred);

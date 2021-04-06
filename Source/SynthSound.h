@@ -11,7 +11,10 @@
 #pragma once
 #include <JuceHeader.h>
 
-
+/*
+    Simple Class required by the Synthesiser class which describes a sound the synthesiser voice can make.
+    It does not need to contain any data.
+*/
 struct SynthSound : public juce::SynthesiserSound
 {
 public:

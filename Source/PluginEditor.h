@@ -31,13 +31,14 @@ private:
     // access the processor object that created it.
     UilleannPipesAudioProcessor& audioProcessor;
 
-
+    // on screen keyboard component
     juce::MidiKeyboardComponent keyboardComponent;
 
+    // toggle button for the drone
     juce::ToggleButton droneToggle;
 
 
-
+    // Gain sliders and their lables
     juce::Label masterLabel;
     juce::Slider masterGainSlider;
 
@@ -47,20 +48,19 @@ private:
     juce::Label droneLabel;
     juce::Slider droneGainSlider;
 
-
-    void createLabelForSlider(juce::Label& label, const char * text, juce::Slider& slider);
-
-
-
-
+    // selector for drone
     juce::ComboBox keySelector;
 
+    // creates the label for the sliders
+    void createLabelForSlider(juce::Label& label, const char* text, juce::Slider& slider);
+
+    
+    // attachments for the audio parameter tree in the pluggin proccessor
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
-
-
     std::unique_ptr <SliderAttachment> masterGainAttachment;
     std::unique_ptr <SliderAttachment> droneGainAttachment;
     std::unique_ptr <SliderAttachment> chantGainAttachment;
+
     std::unique_ptr < juce::AudioProcessorValueTreeState::ButtonAttachment> toggleAttachment;
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> keySelectorAttachment;

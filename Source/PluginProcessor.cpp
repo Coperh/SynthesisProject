@@ -174,14 +174,16 @@ void UilleannPipesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     // gets midi buffer from keyboar state and inserts it into current buffer
     keyboardState.processNextMidiBuffer(midiMessages, 0, numSamples,true);
  
+    // render synthesiser (chanter) block
     syntheiser.renderNextBlock(buffer, midiMessages, 0, numSamples);
-
+    // apply  chanter gain to the synth
     buffer.applyGain(apvts.getRawParameterValue("CHANTGAIN")->load());
     
 
 
-
+    // get the current state of the drone toggle
     float droneCurrentState = apvts.getRawParameterValue("DRONETOGGLE")->load();
+
     // if drone state has changed, toggle function
     if (droneLastState != droneCurrentState) {
     
@@ -197,7 +199,7 @@ void UilleannPipesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
 
     if (droneAdsr.isActive())
     {
-
+        // create empty buffer
         droneBuffer.setSize(buffer.getNumChannels(), numSamples, false, false, true);
 
         droneBuffer.clear();
@@ -205,53 +207,48 @@ void UilleannPipesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
         auto numInputChannels = droneBuffer.getNumChannels();
         auto numOutputChannels = fileBuffer.getNumChannels();
 
-       
+       // for each sample
         for (auto sample = 0; sample < droneBuffer.getNumSamples(); ++sample) {
 
 
-            // Highest multiple of the offset below the max
-            // number of samples divided by the offset floored multiplied by the offset
 
-
+            // for each channel
             for (auto channel = 0; channel < numOutputChannels; ++channel) {
 
                 auto writePointer = droneBuffer.getWritePointer(channel);
                 // possible that there might be more output channels
-                auto readPointer = fileBuffer.getReadPointer(channel);
+                auto readPointer = fileBuffer.getReadPointer(channel% numOutputChannels);
 
+                // copy values from drone sample to output buffer
                 writePointer[sample] = readPointer[dronePosition];
-
             }
 
+            // increment drone sample position, go back to start when end is reached
             dronePosition += 1;
-
-
-
             if (  dronePosition == fileBuffer.getNumSamples())
                 dronePosition = 0;
 
         }
    
-        // apply to buffer.
+        // apply drone envelope to the buffer.
         droneAdsr.applyEnvelopeToBuffer(droneBuffer, 0, numSamples);
 
 
-
+        // apply the drone gain
         droneBuffer.applyGain(apvts.getRawParameterValue("DRONEGAIN")->load());
 
+        // add to the drone to the output 
         for (int channel = 0; channel < buffer.getNumChannels(); ++channel) {
 
            buffer.addFrom(channel, 0, droneBuffer, channel, 0, numSamples);
 
         }
-
-
        
     }
     
 
    
-
+    // apply overall gain to buffer
     buffer.applyGain(apvts.getRawParameterValue("MASTERGAIN")->load());
 
     //auto g = apvts.getRawParameterValue("KEYSELECTION");
