@@ -6,9 +6,12 @@ The plugin consists of two parts: the chanter or the melody pipe that accepts mi
 
 Implemeted using the JUCE 6 audio application framework for C++. It can be compiled to many difference formats i.e. VST2/3, AU2/3.
 
-[JUCE Website](https://juce.com/)
 
-
+## How to Use
+* Go to the [JUCE website](https://juce.com/) and download JUCE.
+* Unzip and run Projucer
+* Open SynthesisProject.jucer
+* Pick the exporter of your coice to compile
 
 ## Of Note
 * The samples are not included because I do not have the rights for them
