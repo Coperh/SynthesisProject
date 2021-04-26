@@ -18,7 +18,7 @@ UilleannPipesAudioProcessorEditor::UilleannPipesAudioProcessorEditor (UilleannPi
 
     // make keyboard visible
     addAndMakeVisible(keyboardComponent);
-    // set range of working notes
+    // set range of working midi notes
     keyboardComponent.setAvailableRange(62, 84);
 
 
@@ -65,6 +65,7 @@ UilleannPipesAudioProcessorEditor::UilleannPipesAudioProcessorEditor (UilleannPi
 
 
     addAndMakeVisible(keySelector);
+    // Add item to list, matches item in apvts 
     keySelector.addItem("G", 1);
 
     keySelectorAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts, "KEYSELECTION", keySelector);
